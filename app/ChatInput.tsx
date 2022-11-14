@@ -8,11 +8,11 @@ import fetcher from "../ultils/fetchMessages";
 
 function ChatInput() {
   const [input, setInput] = useState("");
-  const { data, error, mutate } = useSWR("/api/messages", fetcher);
+  const { data: messages, error, mutate } = useSWR("/api/messages", fetcher);
 
-  console.log(data);
+  console.log(messages);
 
-  const addMessage = (e: FormEvent<HTMLFormElement>) => {
+  const addMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!input) return;
@@ -34,7 +34,7 @@ function ChatInput() {
     };
 
     const uploadMessageToUpstash = async () => {
-      const res = await fetch("/api/addMessage", {
+      const data = await fetch("/api/addMessage", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,13 +42,15 @@ function ChatInput() {
         body: JSON.stringify({
           message,
         }),
-      });
+      }).then((res) => res.json());
 
-      const data = await res.json();
-      console.log("MESSAGE ADDED >>>", data);
+      return [data.message, ...messages!];
     };
 
-    uploadMessageToUpstash();
+    await mutate(uploadMessageToUpstash, {
+      optimisticData: [message, ...messages!],
+      rollbackOnError: true,
+    });
   };
 
   return (
