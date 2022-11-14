@@ -1,9 +1,16 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import useSWR from "swr";
+import { v4 as uuid } from "uuid";
+import { Message } from "../typings";
+import fetcher from "../ultils/fetchMessages";
 
 function ChatInput() {
   const [input, setInput] = useState("");
+  const { data, error, mutate } = useSWR("/api/messages", fetcher);
+
+  console.log(data);
 
   const addMessage = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -13,6 +20,35 @@ function ChatInput() {
     const messageToSend = input;
 
     setInput("");
+
+    const id = uuid();
+
+    const message: Message = {
+      id,
+      message: messageToSend,
+      created_at: Date.now(),
+      username: "Christian Tol",
+      profilePic:
+        "https://scontent-ams4-1.xx.fbcdn.net/v/t1.6435-9/71298819_1681459198658298_1775849581100138496_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=9WeMXSNc1aMAX8YBgao&tn=LVnfF2tnCWF24Mia&_nc_ht=scontent-ams4-1.xx&oh=00_AfC0mAdYl5LfjyJNht6NO1DoFkdTWKH2YjKqdwm4PPs97g&oe=639A0097s",
+      email: "christian.tol1998@hotmail.com",
+    };
+
+    const uploadMessageToUpstash = async () => {
+      const res = await fetch("/api/addMessage", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message,
+        }),
+      });
+
+      const data = await res.json();
+      console.log("MESSAGE ADDED >>>", data);
+    };
+
+    uploadMessageToUpstash();
   };
 
   return (
