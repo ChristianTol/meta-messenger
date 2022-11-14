@@ -1,14 +1,17 @@
-import React from "react";
+"use client";
+
+import useSWR from "swr";
+import fetcher from "../ultils/fetchMessages";
+import MessageComponent from "./MessageComponent";
 
 function MessageList() {
+  const { data: messages, error, mutate } = useSWR("/api/messages", fetcher);
+
   return (
     <div>
-      <p>Message</p>
-      <p>Message</p>
-      <p>Message</p>
-      <p>Message</p>
-      <p>Message</p>
-      <p>Message</p>
+      {messages?.map((message) => (
+        <MessageComponent key={message.id} message={message} />
+      ))}
     </div>
   );
 }
