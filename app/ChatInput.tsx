@@ -27,7 +27,7 @@ function ChatInput() {
       created_at: Date.now(),
       username: "Christian Tol",
       profilePic:
-        "https://scontent-ams4-1.xx.fbcdn.net/v/t1.6435-9/71298819_1681459198658298_1775849581100138496_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=9WeMXSNc1aMAX8YBgao&tn=LVnfF2tnCWF24Mia&_nc_ht=scontent-ams4-1.xx&oh=00_AfC0mAdYl5LfjyJNht6NO1DoFkdTWKH2YjKqdwm4PPs97g&oe=639A0097s",
+        "https://scontent-ams4-1.cdninstagram.com/v/t51.2885-19/72483638_688485158286466_3829213594948468736_n.jpg?stp=dst-jpg_s150x150&_nc_ht=scontent-ams4-1.cdninstagram.com&_nc_cat=110&_nc_ohc=TKNrGZVAPxcAX-9So8T&edm=ACWDqb8BAAAA&ccb=7-5&oh=00_AfDc8PvTR0cPE2RXLYI9lbI99uIXtRNSarxkRMAfR7cYAg&oe=63785211&_nc_sid=1527a3",
       email: "christian.tol1998@hotmail.com",
     };
 
@@ -54,7 +54,8 @@ function ChatInput() {
   return (
     <form
       onSubmit={addMessage}
-      className="fixed bottom-0 z-50 w-full flex px-10 py-5 space-x-2 border-t border-gray-100"
+      className="fixed bottom-0 z-50 w-full flex px-10 py-5 space-x-2 
+      border-t bg-white border-gray-100"
     >
       <input
         type="text"
