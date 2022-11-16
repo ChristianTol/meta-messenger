@@ -4,8 +4,12 @@ import React from "react";
 import LogoutButton from "./LogoutButton";
 import { unstable_getServerSession } from "next-auth/next";
 
-async function Header() {
-  const session = await unstable_getServerSession();
+type Props = {
+  session: Awaited<ReturnType<typeof unstable_getServerSession>>;
+};
+
+function Header({ session }: Props) {
+  // const session = await unstable_getServerSession();
 
   if (session)
     return (
